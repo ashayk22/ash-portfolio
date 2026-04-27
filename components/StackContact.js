@@ -49,7 +49,7 @@ export default function StackContact() {
         <div className="flex flex-col gap-6 pt-0 md:pt-2">
           {[
             { label: "Email", value: "ashayku22306@gmail.com", href: "mailto:ashayku22306@gmail.com" },
-            { label: "LinkedIn", value: "linkedin.com/in/ashay", href: "https://linkedin.com/in/ashay" },
+            { label: "LinkedIn", value: "linkedin.com/in/ashay", href: "https://www.linkedin.com/in/ashay-kumar-06a53b405/" },
             { label: "GitHub", value: "github.com/ashayk22", href: "https://github.com/ashayk22" },
           ].map((item) => (
             <a key={item.label} href={item.href} target="_blank" rel="noreferrer"
