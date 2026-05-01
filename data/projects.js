@@ -48,6 +48,17 @@ const projects = [
     featured: false,
     shadow: "red",
   },
+  {
+  id: "heaven-by-people",
+  title: "Heaven by People",
+  type: "Cafe · Static Site",
+  description: "A static site for a local cafe, built with Next.js. Showcases the menu, location, and story of the cafe with a clean, responsive design.",
+  tags: ["Next.js", "React"],
+  liveUrl: "https://haven-by-people.vercel.app/",
+  githubUrl: "https://github.com/ashayk22/haven-by-people",
+  featured: false,
+  shadow: "blue",   // red, yellow, or blue
+},
 ];
 
 export default projects;
