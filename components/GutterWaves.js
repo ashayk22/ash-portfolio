@@ -1,44 +1,46 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-function WaveSVG({ side }) {
-  const svgRef = useRef(null);
+// Builds a continuous vertical wavy line of cubic-bezier segments that
+// always spans the full requested height, however tall the page is.
+function buildWavePath({ height, baseX, amplitude, segment, seed }) {
+  if (!height) return "";
+  let d = `M${baseX},0`;
+  let y = 0;
+  let i = seed;
+  while (y < height) {
+    const step = segment;
+    const nextY = Math.min(y + step, height);
+    const dir = i % 2 === 0 ? 1 : -1;
+    const wobble = amplitude * (0.7 + 0.3 * Math.sin(i * 0.9));
+    const cx = baseX + dir * wobble;
+    const c1y = y + step * 0.33;
+    const c2y = y + step * 0.66;
+    d += ` C${cx},${c1y} ${cx},${c2y} ${baseX},${nextY}`;
+    y = nextY;
+    i += 1;
+  }
+  return d;
+}
 
-  useEffect(() => {
-    const resize = () => {
-      if (svgRef.current) {
-        const h = document.documentElement.scrollHeight;
-        svgRef.current.setAttribute("viewBox", `0 0 120 ${h}`);
-        svgRef.current.style.height = `${h}px`;
-      }
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    // Re-check after fonts/images load
-    const t = setTimeout(resize, 800);
-    return () => { window.removeEventListener("resize", resize); clearTimeout(t); };
-  }, []);
-
+function WaveSVG({ side, height }) {
   const isLeft = side === "left";
 
-  // Mirror paths for right side
-  const p1 = isLeft
-    ? "M90,0 C50,150 110,300 60,500 C10,700 90,900 50,1100 C10,1300 70,1500 60,1700 C90,1900 40,2100 70,2300 C30,2500 80,2700 50,2900"
-    : "M30,0 C70,150 10,300 60,500 C110,700 30,900 70,1100 C110,1300 50,1500 60,1700 C30,1900 80,2100 50,2300 C90,2500 40,2700 70,2900";
-  const p2 = isLeft
-    ? "M65,0 C25,130 80,280 35,450 C-10,620 65,800 25,980 C-15,1160 50,1340 40,1520 C70,1700 20,1880 55,2060 C15,2240 60,2420 45,2600"
-    : "M55,0 C95,130 40,280 85,450 C130,620 55,800 95,980 C135,1160 70,1340 80,1520 C50,1700 100,1880 65,2060 C105,2240 60,2420 75,2600";
-  const p3 = isLeft
-    ? "M105,0 C65,100 110,240 75,400 C35,560 100,720 65,880 C25,1040 85,1200 75,1360 C100,1520 55,1680 85,1840 C50,2000 90,2160 75,2320"
-    : "M15,0 C55,100 10,240 45,400 C85,560 20,720 55,880 C95,1040 35,1200 45,1360 C20,1520 65,1680 35,1840 C70,2000 30,2160 45,2320";
+  const { p1, p2, p3 } = useMemo(
+    () => ({
+      p1: buildWavePath({ height, baseX: isLeft ? 65 : 55, amplitude: 40, segment: 200, seed: 0 }),
+      p2: buildWavePath({ height, baseX: isLeft ? 45 : 75, amplitude: 30, segment: 180, seed: 3 }),
+      p3: buildWavePath({ height, baseX: isLeft ? 80 : 40, amplitude: 25, segment: 160, seed: 6 }),
+    }),
+    [height, isLeft]
+  );
 
   return (
     <svg
-      ref={svgRef}
-      viewBox="0 0 120 2000"
+      viewBox={`0 0 120 ${height || 2000}`}
       preserveAspectRatio="xMidYMin slice"
-      className="w-full opacity-[0.09] dark:opacity-[0.05]"
-      style={{ display: "block" }}
+      className="w-full text-black dark:text-white opacity-[0.09] dark:opacity-[0.12]"
+      style={{ display: "block", height: height ? `${height}px` : "100%" }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <style>{`
@@ -49,21 +51,56 @@ function WaveSVG({ side }) {
         @keyframes wv2 { from { transform: translateX(0); } to { transform: translateX(${isLeft ? -8 : 8}px); } }
         @keyframes wv3 { from { transform: translateX(0); } to { transform: translateX(${isLeft ? 6 : -6}px); } }
       `}</style>
-      <path className="wv1" d={p1} fill="none" stroke="black" strokeWidth="2.5"/>
-      <path className="wv2" d={p2} fill="none" stroke="black" strokeWidth="1.5"/>
-      <path className="wv3" d={p3} fill="none" stroke="black" strokeWidth="0.8"/>
+      <path className="wv1" d={p1} fill="none" stroke="currentColor" strokeWidth="2.5" />
+      <path className="wv2" d={p2} fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <path className="wv3" d={p3} fill="none" stroke="currentColor" strokeWidth="0.8" />
     </svg>
   );
 }
 
 export default function GutterWaves() {
+  const [height, setHeight] = useState(0);
+  const [gutterWidth, setGutterWidth] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      setHeight(document.documentElement.scrollHeight);
+      // clientWidth excludes the scrollbar, unlike 100vw — using 100vw here
+      // was the cause of the page's horizontal scroll (it's wider than the
+      // actually visible viewport whenever a vertical scrollbar is present).
+      const w = document.documentElement.clientWidth;
+      setGutterWidth(Math.max(0, (w - 1200) / 2));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    // Re-check after fonts/images/video/layout settle
+    const t1 = setTimeout(measure, 500);
+    const t2 = setTimeout(measure, 1500);
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.documentElement);
+    return () => {
+      window.removeEventListener("resize", measure);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      ro.disconnect();
+    };
+  }, []);
+
+  if (gutterWidth <= 0) return null;
+
   return (
     <>
-      <div className="absolute left-0 top-0 w-[calc((100vw-1200px)/2)] h-full pointer-events-none overflow-hidden hidden xl:block" style={{ zIndex: 0 }}>
-        <WaveSVG side="left" />
+      <div
+        className="absolute left-0 top-0 h-full pointer-events-none overflow-hidden hidden xl:block"
+        style={{ zIndex: 0, width: gutterWidth }}
+      >
+        <WaveSVG side="left" height={height} />
       </div>
-      <div className="absolute right-0 top-0 w-[calc((100vw-1200px)/2)] h-full pointer-events-none overflow-hidden hidden xl:block" style={{ zIndex: 0 }}>
-        <WaveSVG side="right" />
+      <div
+        className="absolute right-0 top-0 h-full pointer-events-none overflow-hidden hidden xl:block"
+        style={{ zIndex: 0, width: gutterWidth }}
+      >
+        <WaveSVG side="right" height={height} />
       </div>
     </>
   );

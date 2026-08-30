@@ -41,8 +41,8 @@ export default function About() {
             <div className="absolute inset-0 border border-[#0e0e0e] dark:border-[#f0ede6] bg-[#e6b800] translate-x-[5px] translate-y-[5px] -z-10" />
             <div className="relative border border-[#0e0e0e] dark:border-[#f0ede6] bg-[#f0f0f0] dark:bg-[#1a1a1a] p-6 transition-colors duration-300">
               <p className="font-mono text-[9px] tracking-[0.16em] uppercase text-black/35 dark:text-white/35 mb-3">Currently building</p>
-              <p className="font-syne font-extrabold text-lg text-[#0e0e0e] dark:text-[#f0ede6] mb-2">This portfolio + StudyDesk</p>
-              <p className="text-sm leading-relaxed text-black/65 dark:text-white/65">Shipping ash.dev while finishing StudyDesk — a full-stack study tracker with a priority engine.</p>
+              <p className="font-syne font-extrabold text-lg text-[#0e0e0e] dark:text-[#f0ede6] mb-2">This portfolio + Nook</p>
+              <p className="text-sm leading-relaxed text-black/65 dark:text-white/65">Shipping ash.dev while finishing Nook — a full-stack café &amp; restaurant discovery platform for student communities.</p>
             </div>
           </div>
 

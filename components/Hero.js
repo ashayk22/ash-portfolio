@@ -1,5 +1,7 @@
 "use client";
 
+import projects from "@/data/projects";
+
 const stackTags = [
   { label: "Next.js", style: "border border-black/20 dark:border-white/20 text-black/50 dark:text-white/50" },
   { label: "React", style: "bg-[#e6b800] text-[#0e0e0e] border border-[#e6b800]" },
@@ -8,20 +10,30 @@ const stackTags = [
   { label: "Tailwind", style: "bg-[#c8392b] text-white border border-[#c8392b]" },
 ];
 
-const featuredProjects = [
-  { type: "Full-stack", typeColor: "bg-[#c8392b]", title: "The Dev Blog", desc: "A headless CMS-powered tech blog. Fast, readable, built for people who actually care about content over clutter.", stack: ["Next.js", "CMS", "JS"], url: "https://techverse-blog.netlify.app/" },
-  { type: "Product", typeColor: "bg-[#1a1aff]", title: "StudyDesk", desc: "Assignment + exam tracker built for students. Priority engine, auth, PWA.", stack: ["Next.js", "Supabase"], url: null },
-];
+const typeColorByShadow = {
+  red: "bg-[#c8392b]",
+  yellow: "bg-[#e6b800]",
+  blue: "bg-[#1a1aff]",
+};
+
+// Pull the top two featured projects straight from data/projects.js so this
+// preview panel never drifts out of sync with the main Projects section.
+const featuredProjects = projects
+  .filter((p) => p.featured)
+  .slice(0, 2)
+  .map((p) => ({
+    type: p.type.split(" · ")[0],
+    typeColor: typeColorByShadow[p.shadow] || "bg-[#c8392b]",
+    title: p.title,
+    desc: p.description,
+    stack: p.tags.slice(0, 3),
+    url: p.liveUrl,
+  }));
 
 export default function Hero() {
   return (
     <section className="bg-[#f0f0f0] dark:bg-[#0e0e0e] transition-colors duration-300">
       <div className="px-6 md:px-10 pt-10 md:pt-14 pb-10 md:pb-12">
-
-        <div className="inline-flex items-center gap-2 bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 px-4 py-2 w-fit font-mono text-[11px] tracking-wider text-black/60 dark:text-white/60 mb-6">
-          <span className="w-[6px] h-[6px] rounded-full bg-green-500 animate-pulse" />
-          available for work &amp; collab
-        </div>
 
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
 
@@ -84,17 +96,6 @@ export default function Hero() {
               </a>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* Marquee — full bleed */}
-      <div className="border-t border-b border-black/10 dark:border-white/10 py-3 overflow-hidden bg-[#0e0e0e]">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...Array(2)].map((_, i) => (
-            <span key={i} className="font-mono text-[11px] tracking-[0.25em] uppercase text-white/40">
-              Full-Stack Development &nbsp;&nbsp; &#10022; &nbsp;&nbsp; UI &middot; UX Design &nbsp;&nbsp; &#10022; &nbsp;&nbsp; Headless CMS &nbsp;&nbsp; &#10022; &nbsp;&nbsp; Open to Freelance &nbsp;&nbsp; &#10022; &nbsp;&nbsp; Available for Hire &nbsp;&nbsp; &#10022; &nbsp;&nbsp;&nbsp;
-            </span>
-          ))}
         </div>
       </div>
     </section>

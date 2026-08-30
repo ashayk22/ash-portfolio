@@ -5,6 +5,11 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+html, body {
+  overflow-x: clip; /* clip (not hidden) — hidden pairs with an unset overflow-y in a way that can silently turn overflow-y into "auto" on some engines and break position:sticky descendants; clip avoids that scroll-container side effect while still clipping horizontal overflow */
+  max-width: 100%;
+  width: 100%;
+}
 
 body {
   background-color: #f0f0f0;
