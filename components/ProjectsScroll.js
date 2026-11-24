@@ -41,13 +41,13 @@ function ScrollRow({ cards, reverse, onDelete }) {
   const gridCols = cards.length >= 3 ? "grid-cols-3" : cards.length === 2 ? "grid-cols-2" : "grid-cols-1 max-w-md";
 
   return (
-    <div ref={rowRef} className="overflow-hidden">
+    <div ref={rowRef} className="relative py-2">
       <motion.div
         style={{ x, opacity }}
         className={`grid ${gridCols} gap-6 md:gap-8 will-change-transform`}
       >
         {cards.map((project) => (
-          <div key={project.id} className="min-w-0 h-[440px] md:h-[460px]">
+          <div key={project.id} className="min-w-0 min-h-[490px] h-full flex flex-col">
             <ProjectCard project={project} featured={project.featured} onDelete={onDelete} />
           </div>
         ))}
@@ -61,7 +61,7 @@ export default function ProjectsScroll({ projects, onDelete }) {
   const rows = chunk(projects, 3);
 
   return (
-    <div className="flex flex-col gap-10 md:gap-16 pb-4">
+    <div className="flex flex-col gap-14 md:gap-20 pb-8">
       {rows.map((row, i) => (
         <ScrollRow key={i} cards={row} reverse={i % 2 === 1} onDelete={onDelete} />
       ))}

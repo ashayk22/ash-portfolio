@@ -1,5 +1,5 @@
 const projects = [
-  // --- Featured ---
+  // --- Featured (shown in scroll-split hero + projects grid) ---
   {
     id: "street-coffee",
     title: "It's Street Coffee",
@@ -13,6 +13,32 @@ const projects = [
     shadow: "red",
   },
   {
+    id: "clockitt",
+    title: "Clockitt",
+    type: "Tool · Time Tracker",
+    description:
+      "A minimal, focused time-tracking app — clean UI, session logging, and real-time clock built for productivity without the clutter.",
+    tags: ["React", "Vercel", "JavaScript"],
+    liveUrl: "https://clockitt.vercel.app/",
+    githubUrl: "https://github.com/ashayk22",
+    featured: true,
+    shadow: "yellow",
+  },
+  {
+    id: "monetracker",
+    title: "Moneta",
+    type: "Tool · Finance Tracker",
+    description:
+      "A personal finance tracker built for clarity — track income, expenses, and savings with a clean dashboard and no-nonsense interface.",
+    tags: ["React", "Vercel", "JavaScript"],
+    liveUrl: "https://monetracker.vercel.app/",
+    githubUrl: "https://github.com/ashayk22",
+    featured: true,
+    shadow: "blue",
+  },
+
+  // --- Projects ---
+  {
     id: "luvbirds",
     title: "Luvbirds",
     type: "Product · Web App",
@@ -21,7 +47,7 @@ const projects = [
     tags: ["Supabase", "HTML/CSS/JS", "Realtime"],
     liveUrl: "https://luvbirds.netlify.app/",
     githubUrl: "https://github.com/ashayk22",
-    featured: true,
+    featured: false,
     shadow: "yellow",
   },
   {
@@ -33,11 +59,9 @@ const projects = [
     tags: ["Next.js", "React"],
     liveUrl: "https://ami-cooked.vercel.app/",
     githubUrl: "https://github.com/ashayk22",
-    featured: true,
+    featured: false,
     shadow: "blue",
   },
-
-  // --- Projects ---
   {
     id: "equisplit",
     title: "EquiSplit",
@@ -63,31 +87,40 @@ const projects = [
     shadow: "blue",
   },
   {
-    id: "haven-by-people",
-    title: "Haven by People",
-    type: "Cafe · Static Site",
+    id: "vishwamitra",
+    title: "Vishwamitra Water",
+    type: "Client · Business Site",
     description:
-      "A static site for a local café, showcasing the menu, location, and story of the cafe with a clean, responsive design.",
-    tags: ["Next.js", "React"],
-    liveUrl: "https://haven-by-people.vercel.app/",
-    githubUrl: "https://github.com/ashayk22/haven-by-people",
+      "A professional website for a water technologies company — clean product showcase, contact flow, and responsive layout built for trust and clarity.",
+    tags: ["Next.js", "React", "Tailwind"],
+    liveUrl: "https://vishwamitrawatertechnologies.vercel.app/",
+    githubUrl: "https://github.com/ashayk22",
     featured: false,
-    shadow: "yellow",
+    shadow: "blue",
   },
-
-  // --- In progress ---
   {
-    id: "nook",
-    title: "Nook",
-    type: "Full-Stack · Community App",
+    id: "brandup",
+    title: "BrandUp",
+    type: "Client · Agency Site",
     description:
-      "A full-stack café and restaurant discovery platform built for student communities — browse and rate local spots, with Supabase auth and a journal-inspired design system. Currently in active development.",
-    tags: ["Next.js 14", "Supabase", "NextAuth", "Tailwind"],
-    liveUrl: null,
+      "A modern branding agency site — bold typography, smooth transitions, and a portfolio-first layout designed to impress on first scroll.",
+    tags: ["Next.js", "React", "Framer Motion"],
+    liveUrl: "https://brandup01.vercel.app/",
     githubUrl: "https://github.com/ashayk22",
     featured: false,
     shadow: "red",
-    inProgress: true,
+  },
+  {
+    id: "byteforge",
+    title: "ByteForge",
+    type: "Hackathon · SIH",
+    description:
+      "A hackathon project built for Smart India Hackathon — a platform for collaborative coding challenges and team formation, designed under time pressure and shipped fast.",
+    tags: ["Next.js", "Supabase", "Tailwind"],
+    liveUrl: "https://byteforge-sih.vercel.app/",
+    githubUrl: "https://github.com/ashayk22",
+    featured: false,
+    shadow: "yellow",
   },
 ];
 

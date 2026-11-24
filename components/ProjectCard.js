@@ -5,7 +5,7 @@ export default function ProjectCard({ project, featured = false, onDelete }) {
   return (
     <div data-cursor="view" className="relative group">
       <div className={`absolute inset-0 border border-[#0e0e0e] dark:border-[#f0ede6] ${shadow} translate-x-[6px] translate-y-[6px] -z-10 transition-all duration-150 group-hover:translate-x-[8px] group-hover:translate-y-[8px]`} />
-      <div className="relative bg-[#f0f0f0] dark:bg-[#1a1a1a] border border-[#0e0e0e] dark:border-[#f0ede6] p-7 h-full flex flex-col transition-all duration-150 group-hover:-translate-x-[2px] group-hover:-translate-y-[2px] overflow-hidden">
+      <div className="relative bg-[#f0f0f0] dark:bg-[#1a1a1a] border border-[#0e0e0e] dark:border-[#f0ede6] p-6 sm:p-7 h-full flex flex-col justify-between transition-all duration-150 group-hover:-translate-x-[2px] group-hover:-translate-y-[2px]">
         {project.custom && onDelete && (
           <button
             onClick={(e) => {
@@ -42,8 +42,14 @@ export default function ProjectCard({ project, featured = false, onDelete }) {
           )}
         </p>
 
-        <h3 className="font-syne font-extrabold leading-tight text-[#0e0e0e] dark:text-[#f0ede6] mb-4 relative z-10 text-2xl">
-          {project.title.split(" ").map((word, i) => <span key={i} className="block">{word}</span>)}
+        <h3 className="font-syne font-extrabold leading-tight text-[#0e0e0e] dark:text-[#f0ede6] mb-3 relative z-10 text-xl sm:text-2xl">
+          {project.liveUrl ? (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[#c8392b] transition-colors">
+              {project.title}
+            </a>
+          ) : (
+            project.title
+          )}
         </h3>
 
         <hr className="border-black/10 dark:border-white/10 mb-5 relative z-10" />
@@ -58,19 +64,19 @@ export default function ProjectCard({ project, featured = false, onDelete }) {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-3 items-center relative z-10">
+        <div className="flex flex-wrap gap-2.5 items-center relative z-10 mt-auto pt-2">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-[11px] tracking-wider uppercase text-[#0e0e0e] dark:text-[#f0ede6] border border-[#0e0e0e] dark:border-[#f0ede6] px-3.5 py-2 hover:bg-[#0e0e0e] hover:text-[#f0f0f0] dark:hover:bg-[#f0ede6] dark:hover:text-[#0e0e0e] transition-colors"
+              className="font-mono text-[11px] font-semibold tracking-wider uppercase text-[#0e0e0e] dark:text-[#f0ede6] border-2 border-[#0e0e0e] dark:border-[#f0ede6] px-4 py-2 hover:bg-[#c8392b] hover:border-[#c8392b] hover:text-white dark:hover:bg-[#c8392b] dark:hover:border-[#c8392b] dark:hover:text-white transition-colors inline-flex items-center gap-1.5"
             >
               Live &#x2197;
             </a>
           ) : (
-            <span className="font-mono text-[11px] tracking-wider uppercase text-black/25 dark:text-white/25 border border-black/10 dark:border-white/10 px-3.5 py-2 cursor-not-allowed">
-              Live — coming soon
+            <span className="font-mono text-[11px] tracking-wider uppercase text-black/30 dark:text-white/30 border border-black/15 dark:border-white/15 px-3 py-2 cursor-not-allowed">
+              Coming soon
             </span>
           )}
           {project.githubUrl && (
@@ -78,7 +84,7 @@ export default function ProjectCard({ project, featured = false, onDelete }) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-[11px] tracking-wider uppercase text-[#0e0e0e] dark:text-[#f0ede6] border border-[#0e0e0e] dark:border-[#f0ede6] px-3.5 py-2 hover:bg-[#0e0e0e] hover:text-[#f0f0f0] dark:hover:bg-[#f0ede6] dark:hover:text-[#0e0e0e] transition-colors"
+              className="font-mono text-[11px] font-semibold tracking-wider uppercase text-[#0e0e0e] dark:text-[#f0ede6] border-2 border-[#0e0e0e] dark:border-[#f0ede6] px-4 py-2 hover:bg-[#c8392b] hover:border-[#c8392b] hover:text-white dark:hover:bg-[#c8392b] dark:hover:border-[#c8392b] dark:hover:text-white transition-colors inline-flex items-center gap-1.5"
             >
               GitHub &#x2197;
             </a>

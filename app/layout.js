@@ -1,7 +1,13 @@
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 
-export const metadata = { title: "Ashay — ash.dev", description: "Developer portfolio. Art is only abandoned, never finished." };
+export const metadata = {
+  title: "Ashay — ash.dev",
+  description: "Developer portfolio. Art is only abandoned, never finished.",
+  icons: {
+    icon: "/icon.svg",
+  },
+};
 
 // Without this, phones ship with no <meta name="viewport"> tag at all, so
 // mobile browsers fall back to rendering at a ~980px desktop-width layout

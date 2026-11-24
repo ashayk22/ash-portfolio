@@ -124,21 +124,15 @@ export function ScrollSplitCard({
           style={{ scale, y: cardsY }}
           className={cn(
             "flex w-full max-w-6xl px-4 relative",
-            isMobile ? "flex-col gap-4 h-auto py-4" : "flex-row gap-7 sm:gap-12 h-[460px] sm:h-[560px]"
+            isMobile ? "flex-col gap-4 h-auto py-4" : "flex-row gap-0 h-[460px] sm:h-[560px]"
           )}
         >
           {cards.slice(0, 3).map((card, i) => {
-            // Clickable only on mobile: on desktop these panels are a
-            // preview before the full Projects section below (which has
-            // its own Live/GitHub buttons), so a link here just risks an
-            // accidental click mid-scroll-animation. On mobile there's no
-            // separate "preview vs full" distinction happening on the same
-            // scroll, so tapping through is the expected affordance.
-            const clickable = isMobile && (card.href || card.onClick);
-            const CardTag = isMobile && card.href ? "a" : isMobile && card.onClick ? "button" : "div";
-            const cardTagProps = isMobile && card.href
+            const clickable = Boolean(card.href || card.onClick);
+            const CardTag = card.href ? "a" : card.onClick ? "button" : "div";
+            const cardTagProps = card.href
               ? { href: card.href, target: "_blank", rel: "noopener noreferrer" }
-              : isMobile && card.onClick
+              : card.onClick
                 ? { type: "button", onClick: card.onClick }
                 : {};
             const rotateZ = i === 0 ? rotateZLeft : i === 2 ? rotateZRight : 0;
@@ -182,10 +176,10 @@ export function ScrollSplitCard({
                   <CardTag
                     {...cardTagProps}
                     className={cn(
-                      "absolute inset-0 overflow-hidden flex flex-col p-4 sm:p-8 text-left rounded-2xl will-change-transform w-full h-full",
+                      "absolute inset-0 overflow-hidden flex flex-col p-4 sm:p-8 text-left rounded-2xl will-change-transform w-full h-full group",
                       "border border-white/5 bg-gradient-to-br from-white/10 to-transparent",
                       "shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-24px_48px_rgba(0,0,0,0.2)]",
-                      clickable && "cursor-pointer"
+                      clickable && "cursor-pointer hover:scale-[1.02] transition-transform duration-200"
                     )}
                     style={{
                       backgroundColor: card.bgColor,
@@ -231,17 +225,8 @@ export function ScrollSplitCard({
                         <p className="hidden sm:block text-sm opacity-80 leading-relaxed">{card.description}</p>
                       )}
                       {clickable && (
-                        <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] tracking-widest uppercase opacity-90">
-                          View project
-                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8"
-                              stroke="currentColor"
-                              strokeWidth="1.3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                        <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] tracking-widest uppercase border border-current px-3.5 py-1.5 rounded-sm bg-black/15 group-hover:bg-black/30 transition-colors w-fit">
+                          View project &#x2197;
                         </span>
                       )}
                     </div>

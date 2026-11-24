@@ -9,6 +9,13 @@ export default function Cursor() {
   const raf = useRef(null);
   const [hovering, setHovering] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [hasPointer, setHasPointer] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
+      setHasPointer(true);
+    }
+  }, []);
 
   useEffect(() => {
     const checkDark = () => setIsDark(document.documentElement.classList.contains("dark"));
@@ -46,6 +53,8 @@ export default function Cursor() {
 
   const accent = "#c8392b";
   const ink = isDark ? "#f0ede6" : "#0e0e0e";
+
+  if (!hasPointer) return null;
 
   return (
     <>

@@ -114,17 +114,17 @@ export default function TechStack() {
         </div>
 
         {/* Elevator-style split heading, scroll-linked */}
-        <div ref={wrapRef} className="elevator-wrap mb-16 md:mb-20 select-none">
-          <div className="grid grid-cols-2 gap-2 md:gap-4">
+        <div ref={wrapRef} className="elevator-wrap mb-16 md:mb-20 select-none overflow-hidden">
+          <div className="flex items-baseline justify-center gap-[0.3em]">
             <div
               ref={leftRef}
-              className="elevator-left min-w-0 break-words font-syne font-extrabold tracking-tight text-[9.5vw] md:text-[5.2vw] leading-[0.95] text-right text-[#0e0e0e] dark:text-[#f0ede6]"
+              className="elevator-left font-syne font-extrabold tracking-tight leading-[0.95] text-[#0e0e0e] dark:text-[#f0ede6] whitespace-nowrap text-[clamp(1.35rem,5.2vw,4.25rem)]"
             >
               RUN ON
             </div>
             <div
               ref={rightRef}
-              className="elevator-right echo-target min-w-0 break-words font-syne font-extrabold tracking-tight text-[9.5vw] md:text-[5.2vw] leading-[0.95] text-[#c8392b]"
+              className="elevator-right echo-target font-syne font-extrabold tracking-tight leading-[0.95] text-[#c8392b] whitespace-nowrap text-[clamp(1.35rem,5.2vw,4.25rem)]"
             >
               THIS STACK
             </div>
@@ -163,10 +163,12 @@ export default function TechStack() {
         .elevator-left {
           transform: translateX(calc((1 - var(--p)) * 5vw));
           opacity: var(--p);
+          will-change: transform, opacity;
         }
         .elevator-right {
           transform: translateX(calc((var(--p) - 1) * 5vw));
           opacity: var(--p);
+          will-change: transform, opacity;
         }
 
         /* One-shot echoing drop-shadow trail, like the elevator doors settling */

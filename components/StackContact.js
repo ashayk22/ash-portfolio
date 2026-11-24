@@ -31,15 +31,27 @@ export default function StackContact() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col sm:flex-row gap-4">
-                <input type="text" name="name" required placeholder="Your name" className={`flex-1 ${inputClass}`} />
-                <input type="email" name="email" required placeholder="Your email" className={`flex-1 ${inputClass}`} />
+                <div className="flex-1">
+                  <label htmlFor="contact-name" className="sr-only">Your name</label>
+                  <input id="contact-name" type="text" name="name" required placeholder="Your name" className={`w-full ${inputClass}`} />
+                </div>
+                <div className="flex-1">
+                  <label htmlFor="contact-email" className="sr-only">Your email</label>
+                  <input id="contact-email" type="email" name="email" required placeholder="Your email" className={`w-full ${inputClass}`} />
+                </div>
               </div>
-              <input type="text" name="subject" placeholder="Subject" className={inputClass} />
-              <textarea name="message" required rows={5} placeholder="Tell me about your project..." className={`${inputClass} resize-none`} />
+              <div>
+                <label htmlFor="contact-subject" className="sr-only">Subject</label>
+                <input id="contact-subject" type="text" name="subject" placeholder="Subject" className={`w-full ${inputClass}`} />
+              </div>
+              <div>
+                <label htmlFor="contact-message" className="sr-only">Your message</label>
+                <textarea id="contact-message" name="message" required rows={5} placeholder="Tell me about your project..." className={`w-full ${inputClass} resize-none`} />
+              </div>
               <button type="submit" disabled={status === "sending"}
                 className="group relative overflow-hidden bg-[#0e0e0e] dark:bg-[#f0ede6] text-[#f0f0f0] dark:text-[#0e0e0e] font-syne font-extrabold text-sm uppercase tracking-tight px-8 py-4 border-2 border-[#0e0e0e] dark:border-[#f0ede6] w-fit">
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-[#e6b800] z-0 transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]" />
-                <span className="relative z-10 group-hover:text-[#0e0e0e] transition-colors duration-300">{status === "sending" ? "Sending..." : "Send message \u2192"}</span>
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-[#c8392b] z-0 transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]" />
+                <span className="relative z-10 group-hover:text-white transition-colors duration-300">{status === "sending" ? "Sending..." : "Send message \u2192"}</span>
               </button>
               {status === "error" && <p className="font-mono text-xs text-[#c8392b]">Something went wrong. Try emailing directly.</p>}
             </form>
@@ -51,11 +63,12 @@ export default function StackContact() {
             { label: "Email", value: "ashayku22306@gmail.com", href: "mailto:ashayku22306@gmail.com" },
             { label: "LinkedIn", value: "linkedin.com/in/ashay", href: "https://www.linkedin.com/in/ashay-kumar-06a53b405/" },
             { label: "GitHub", value: "github.com/ashayk22", href: "https://github.com/ashayk22" },
+            { label: "Instagram", value: "@ashgpttt", href: "https://www.instagram.com/ashgpttt/" },
           ].map((item) => (
             <a key={item.label} href={item.href} target="_blank" rel="noreferrer"
-              className="group flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 hover:border-[#e6b800] transition-colors">
+              className="group flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 hover:border-[#c8392b] transition-colors">
               <span className="font-mono text-xs tracking-widest uppercase text-black/40 dark:text-white/40">{item.label}</span>
-              <span className="font-mono text-xs md:text-sm text-[#0e0e0e] dark:text-[#f0ede6] group-hover:text-[#e6b800] transition-colors truncate ml-4">{item.value}</span>
+              <span className="font-mono text-xs md:text-sm text-[#0e0e0e] dark:text-[#f0ede6] group-hover:text-[#c8392b] transition-colors truncate ml-4">{item.value}</span>
             </a>
           ))}
         </div>

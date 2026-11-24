@@ -52,32 +52,25 @@ function buildFeaturedCards(projects, scrollToSection) {
 // markup — encodeURIComponent doesn't escape parentheses, so any literal
 // "(" / ")" here would prematurely close the CSS url() this gets embedded
 // in later and silently blank out the background image.
-function buildDotGrid() {
-  const dots = [];
-  for (let x = 30; x < 1600; x += 60) {
-    for (let y = 30; y < 900; y += 60) {
-      dots.push(`<circle cx="${x}" cy="${y}" r="1.5" fill="#ffffff" fill-opacity="0.08" />`);
-    }
-  }
-  return dots.join("");
-}
-
+// Compact SVG data URI for the continuous "FEATURED PROJECTS" banner.
+// Uses an SVG <pattern> for the dot grid so the data URI stays tiny (~1KB).
 function buildBannerDataUri() {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
-      <rect width="1600" height="900" fill="#0e0e0e" />
-      ${buildDotGrid()}
-      <rect x="0" y="0" width="1600" height="10" fill="#c8392b" />
-      <rect x="0" y="890" width="1600" height="10" fill="#e6b800" />
-      <rect x="120" y="140" width="90" height="90" fill="#c8392b" opacity="0.85" />
-      <rect x="1390" y="670" width="90" height="90" fill="#1a1aff" opacity="0.85" />
-      <circle cx="1460" cy="180" r="46" fill="#e6b800" opacity="0.85" />
-      <circle cx="150" cy="740" r="46" fill="#1a1aff" opacity="0.7" />
-      <text x="800" y="480" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="120" fill="#f0ede6" letter-spacing="2">FEATURED</text>
-      <text x="800" y="600" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="120" fill="#c8392b" letter-spacing="2">PROJECTS</text>
-    </svg>
-  `.trim();
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">' +
+    '<defs><pattern id="d" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="30" cy="30" r="1.5" fill="#ffffff" fill-opacity="0.08"/></pattern></defs>' +
+    '<rect width="1600" height="900" fill="#0e0e0e"/>' +
+    '<rect width="1600" height="900" fill="url(#d)"/>' +
+    '<rect x="0" y="0" width="1600" height="10" fill="#c8392b"/>' +
+    '<rect x="0" y="890" width="1600" height="10" fill="#e6b800"/>' +
+    '<rect x="120" y="140" width="90" height="90" fill="#c8392b" opacity="0.85"/>' +
+    '<rect x="1390" y="670" width="90" height="90" fill="#1a1aff" opacity="0.85"/>' +
+    '<circle cx="1460" cy="180" r="46" fill="#e6b800" opacity="0.85"/>' +
+    '<circle cx="150" cy="740" r="46" fill="#1a1aff" opacity="0.7"/>' +
+    '<text x="800" y="480" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="120" fill="#f0ede6" letter-spacing="2">FEATURED</text>' +
+    '<text x="800" y="600" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="120" fill="#c8392b" letter-spacing="2">PROJECTS</text>' +
+    "</svg>";
+
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
 
 function scrollToSection(id) {

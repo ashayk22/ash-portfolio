@@ -15,6 +15,22 @@ export default function HireCTA() {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(emptyForm);
   const [status, setStatus] = useState("idle");
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = typeof window !== "undefined" ? window.scrollY : 0;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      lastScrollY = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -74,7 +90,9 @@ export default function HireCTA() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-[#c8392b] text-white font-mono text-[11px] tracking-widest uppercase px-5 py-3 border-2 border-[#0e0e0e] dark:border-[#f0ede6] shadow-[4px_4px_0_0_#0e0e0e] dark:shadow-[4px_4px_0_0_#f0ede6] hover:shadow-[6px_6px_0_0_#0e0e0e] dark:hover:shadow-[6px_6px_0_0_#f0ede6] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all"
+        className={`fixed bottom-6 right-6 z-40 md:hidden flex items-center gap-2 bg-[#c8392b] text-white font-mono text-[11px] tracking-widest uppercase px-5 py-3 border-2 border-[#0e0e0e] dark:border-[#f0ede6] shadow-[4px_4px_0_0_#0e0e0e] dark:shadow-[4px_4px_0_0_#f0ede6] hover:shadow-[6px_6px_0_0_#0e0e0e] dark:hover:shadow-[6px_6px_0_0_#f0ede6] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all duration-300 ${
+          visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0 pointer-events-none"
+        }`}
       >
         <Send className="w-3.5 h-3.5" strokeWidth={2.5} />
         Hire me
